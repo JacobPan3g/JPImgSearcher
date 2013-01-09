@@ -27,11 +27,12 @@ def getWeightArr( label ):
 def calculate( curImgChar_12, imgChar_12, weight ):
 	# calculating the likehoods
 	likehoods = list()
-	for i in xrange(12):
+	N = len( imgChar_12 )
+	for i in xrange(N):
 		x = curImgChar_12[i]
 		y = imgChar_12[i]
-		xAver = sum( x ) / 72.0
-		yAver = sum( y ) / 72.0
+		xAver = sum( x ) / (N*1.0)
+		yAver = sum( y ) / (N*1.0)
 		r = sum((xi-xAver)*(yi-yAver) for xi, yi in zip(x,y)) / math.sqrt(sum((xi-xAver)*(xi-xAver) for xi in x)*sum((yi-yAver)*(yi-yAver) for yi in y))
 		likehoods.append( r )
 	# calculating the total same rate
@@ -40,6 +41,12 @@ def calculate( curImgChar_12, imgChar_12, weight ):
 	return rate
 
 # Function: calculate_checkRate
+#	caculate the checkRate
+#	Parameters:
+#		resArr:Array		the Array of result idx
+#		curIdx:int			the cur image idx
+#	Return:
+#		the checkRate
 def calculate_checkRate( resArr, curIdx ):
 	res = 0
 	curIdx = int(curIdx)
@@ -93,6 +100,12 @@ def searcher( src_address, search_adress, label, num_imgs, num_match, imgs ):
 	return resArr, res, check_rate
 
 # Funcion: getImgs
+#	get the image chacteristic from txt
+#	Parameter:
+#		search_adress:String		the search address
+#		num_imgsLint				the number of image would get
+#	Return:
+#		the image Array(Dict)
 def getImgs( search_adress="images/", num_imgs=1000 ):
 	tmp = JPTool.getAsIntArr3DFromTxt( 'chacteristic.txt' )
 	imgs = list()
@@ -115,10 +128,10 @@ if __name__ == '__main__':
 	imgs = getImgs()
 	checkRates = list()
 	for i in xrange(1000):
-#print "Please input the number of image:"
-#a = raw_input()
+		#print "One finish!:"
+		#a = raw_input()
 		resArr,res, check_rate = searcher("images/", "images/", i, 1000, 100, imgs)
 		checkRates.append( check_rate )
-	print checkRates
+	#print checkRates
 	writeRateToTxt( checkRates )
 

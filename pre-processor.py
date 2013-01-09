@@ -93,13 +93,15 @@ def statitict( imgArr, nums ):
 				I[2] += 1
 	# calculate the arr72
 	# motify here
-	arr72 = H
-	arr72.append(S[0])
-	arr72.append(S[1])
-	arr72.append(S[2])
-	arr72.append(I[0])
-	arr72.append(I[1])
-	arr72.append(I[2])
+	arr72 = [9*h+3*s+i for i in I for s in S for h in H]
+	
+	#arr72 = H
+	#arr72.append(S[0])
+	#arr72.append(S[1])
+	#arr72.append(S[2])
+	#arr72.append(I[0])
+	#arr72.append(I[1])
+	#arr72.append(I[2])
 	return arr72
 
 # Function: getCharacteristics
