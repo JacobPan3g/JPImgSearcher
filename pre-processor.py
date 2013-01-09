@@ -52,36 +52,6 @@ def rgb2hsi( rgbImg ):
 		# Here here
 	return hsiMat
 
-# Function: getCharacteristics
-# 	Get the characteristics of 12 partions
-#	Parameters:
-#		imgArr:Image	the arr of 16x16 images splited from a image
-#	Return:
-#		the characteristics of 12 partions
-def getCharacteristics( img ):
-	# the partion array
-	partion = ( \
-		[0],\
-		[7],\
-		[56],\
-		[63],\
-		(8,16,24,32,40,48),\
-		(1,2,3,4,5,6),\
-		(15,23,31,39,47,55),\
-		(57,58,59,60,61,62),\
-		(9,10,11,17,18,19,25,26,27,28,35,36),\
-		(12,13,14,20,21,22,29,30,27,28,35,36),\
-		(33,34,41,42,43,49,50,51,27,28,35,36),\
-		(37,38,44,45,46,52,53,54,27,28,35,36) )
-	# sqlit the image	
-	imgArr = split( img )
-	# get the characteristics
-	imgChar_12 = list()
-	for i in xrange(12):
-		arr_72 = statitict( imgArr, partion[i] )
-		imgChar_12.append( arr_72 )
-	return imgChar_12
-	
 def statitict( imgArr, nums ):
 	H = [0, 0, 0, 0, 0, 0, 0, 0]
 	S = [0, 0 ,0]
@@ -130,44 +100,37 @@ def statitict( imgArr, nums ):
 	arr72.append(I[0])
 	arr72.append(I[1])
 	arr72.append(I[2])
-	return arr72	
+	return arr72
 
-# Funciton: calculate
-#	The main calculator
+# Function: getCharacteristics
+# 	Get the characteristics of 12 partions
 #	Parameters:
-#		curImg:Image	the cur image
-#		img:Image		the matching image
+#		imgArr:Image	the arr of 16x16 images splited from a image
 #	Return:
-#		the same rate
-def calculate( curImgChar_12, imgChar_12, weight ):
-	# calculating the likehoods
-	likehoods = list()
+#		the characteristics of 12 partions
+def getCharacteristics( img ):
+	# the partion array
+	partion = ( \
+		[0],\
+		[7],\
+		[56],\
+		[63],\
+		(8,16,24,32,40,48),\
+		(1,2,3,4,5,6),\
+		(15,23,31,39,47,55),\
+		(57,58,59,60,61,62),\
+		(9,10,11,17,18,19,25,26,27,28,35,36),\
+		(12,13,14,20,21,22,29,30,27,28,35,36),\
+		(33,34,41,42,43,49,50,51,27,28,35,36),\
+		(37,38,44,45,46,52,53,54,27,28,35,36) )
+	# sqlit the image	
+	imgArr = split( img )
+	# get the characteristics
+	imgChar_12 = list()
 	for i in xrange(12):
-		x = curImgChar_12[i]
-		y = imgChar_12[i]
-		xAver = sum( x ) / 72.0
-		yAver = sum( y ) / 72.0
-		r = sum((xi-xAver)*(yi-yAver) for xi, yi in zip(x,y)) / math.sqrt(sum((xi-xAver)*(xi-xAver) for xi in x)*sum((yi-yAver)*(yi-yAver) for yi in y))
-		likehoods.append( r )
-	# calculating the total same rate
-	rate = weight[0] * sum(likehoods[i] for i in xrange(4)) + weight[1] * sum(likehoods[i+4] for i in xrange(4)) + weight[2] * sum(likehoods[i+8] for i in xrange(4))
-	#print rate
-	return rate
-
-# Function getWeightArr
-#	Get the Weights from the file
-#	Parameters:
-#		label:String	the label name
-#	Return:
-#		the array of weight
-def getWeightArr( label ):
-#	fobj = open("weight/"+ label+".txt", 'r')
-#	arr = list()
-#	for eachLine in fobj:	
-#		arr.append(float(eachLine))
-#	fobj.close()i
-	arr = (0.025, 0.045, 0.18)
-	return arr
+		arr_72 = statitict( imgArr, partion[i] )
+		imgChar_12.append( arr_72 )
+	return imgChar_12	
 
 # Funcion: readAllImages
 #	read all the image and get their chacteristic and save it
