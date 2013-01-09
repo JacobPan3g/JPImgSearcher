@@ -168,6 +168,46 @@ def getWeightArr( label ):
 	arr = (0.025, 0.045, 0.18)
 	return arr
 
+# Function: calculate_checkRate
+def calculate_checkRate( resArr, curIdx ):
+	res = 0
+	curIdx = int(curIdx)
+	rights = 0
+	for i in xrange(len(resArr)):
+		idx = int(resArr[i])
+		R = 0
+		if idx/100 == curIdx/100:
+			rights = rights + 1
+			R = 1
+		res = res + (rights*1.0) / (i+1)
+	return res / len(resArr)
+
+# Function: searcherForTaining
+#	The process of the function searcher
+#	Parameters:
+#		src_address:String		the address of the source image
+#		search_adress:String	the search address
+#		weight:array			the weight array
+#		curImgChar_12:array		the array of characteristic
+#		num_imgs:int			how many images are in the search address
+#		num_match:int			how many images you want to return
+#	Return:
+#		the image after processing		
+def searcherForTaining( src_address, search_adress, weight, curImgChar_12, num_imgs, num_match=0 ):
+	imgs = list()
+	for i in range(num_imgs):
+		imgName = search_adress+'%d.jpg' % (i)
+		item = dict()
+		img = openImg(imgName)
+		item['imgObj'] = img
+		item['idx'] = i
+		imgs.append(item)
+	# calculate the rate
+	for item in imgs:
+		rate = calculate(curImgChar_12, item['imgObj'], weight)
+		item['rate'] = rate
+	return imgs;
+
 # Function: searcher
 # 	The main function to search the image
 #	Parameters:
@@ -198,34 +238,13 @@ def searcher( src_address, search_adress, label, num_imgs, num_match ):
 	for i in xrange(num_match):
 		resArr.append(res[i]['idx'])
 	
+	# Calculate the check_rate
+	check_rate = calculate_checkRate( resArr, label )
+	print check_rate
+
 	return resArr, res
 	
-# Function: searcherForTaining
-#	The process of the function searcher
-#	Parameters:
-#		src_address:String		the address of the source image
-#		search_adress:String	the search address
-#		weight:array			the weight array
-#		curImgChar_12:array		the array of characteristic
-#		num_imgs:int			how many images are in the search address
-#		num_match:int			how many images you want to return
-#	Return:
-#		the image after processing		
-def searcherForTaining( src_address, search_adress, weight, curImgChar_12, num_imgs, num_match=0 ):
-	imgs = list()
-	for i in range(num_imgs):
-		imgName = search_adress+'%d.jpg' % (i)
-		item = dict()
-		img = openImg(imgName)
-		item['imgObj'] = img
-		item['idx'] = i
-		imgs.append(item)
-	# calculate the rate
-	for item in imgs:
-		rate = calculate(curImgChar_12, item['imgObj'], weight)
-		item['rate'] = rate
-	return imgs;
-	
+
 if __name__ == '__main__':
 	resArr,res = searcher("images/0.jpg", "images/", "0", 100, 10)
 	print resArr

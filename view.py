@@ -2,6 +2,7 @@
 """The result view of searcher."""
 
 import wx
+import searcherAI as sr
 
 class BlockWindow( wx.StaticBitmap ):
 	def __init__( self, parent, id=-1, pos=wx.DefaultPosition, size=(192,192), imgName=""):
@@ -22,15 +23,26 @@ class GridSizerFrame( wx.Frame ):
 		sizer = wx.GridSizer( rows=0, cols=7, hgap=3, vgap=3 )
 		
 		for imgName in imgNameArr:
-			name = "images/" + + ".jpg"	
+			name = "images/%d.jpg" % imgName	
 			bw = BlockWindow( self.scroll, imgName=name )
 			sizer.Add( bw, flag=wx.ALIGN_CENTER )
 		
 		self.scroll.SetSizer( sizer )
 		self.scroll.Fit()
 
-def main( imgNameArr ):
+def startGUI( imgNameArr ):
+	# Start the GUI view
 	app = wx.PySimpleApp()
 	GridSizerFrame( imgNameArr ).Show()
 	app.MainLoop()
 	
+def main():
+	# input
+	print "Please input the Image:"
+	curName = raw_input()
+	# search
+	imgNameArr,resDetial = sr.searcher( "images/"+curName+".jpg", 'images/', curName, 1000, 100 )
+	startGUI( imgNameArr )
+
+if __name__ == '__main__':
+	main()
