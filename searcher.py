@@ -27,8 +27,8 @@ def getWeightArr( label ):
 def calculate( curImgChar_12, imgChar_12, weight ):
 	# calculating the likehoods
 	likehoods = list()
-	N = len( imgChar_12 )
-	for i in xrange(N):
+	N = len( imgChar_12[0] )
+	for i in xrange(12):
 		x = curImgChar_12[i]
 		y = imgChar_12[i]
 		xAver = sum( x ) / (N*1.0)
@@ -119,10 +119,16 @@ def getImgs( search_adress="images/", num_imgs=1000 ):
 		imgs.append(item)
 	return imgs;
 
+# Funcion: writeRateToTxt
+#	write all check rates to the txt
+#	Parameter
+#		checkRates:String		the check rate array
 def writeRateToTxt( checkRates  ):
 	fobj = open( 'result.txt', 'w' )
 	fobj.writelines( ["%lf\n"%x for x in checkRates] )
 	fobj.close()
+
+
 
 if __name__ == '__main__':
 	imgs = getImgs()

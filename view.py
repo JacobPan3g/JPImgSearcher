@@ -2,7 +2,7 @@
 """The result view of searcher."""
 
 import wx
-import searcherAI as sr
+import searcher as sr
 
 class BlockWindow( wx.StaticBitmap ):
 	def __init__( self, parent, id=-1, pos=wx.DefaultPosition, size=(192,192), imgName=""):
@@ -37,12 +37,21 @@ def startGUI( imgNameArr ):
 	app.MainLoop()
 	
 def main():
-	# input
-	print "Please input the Image:"
-	curName = raw_input()
-	# search
-	imgNameArr,resDetial = sr.searcher( "images/"+curName+".jpg", 'images/', curName, 1000, 100 )
-	startGUI( imgNameArr )
+	while( True ):
+		# input
+		print "Please input the Image:"
+		curName = raw_input()
+		if int(curName) > 1000 or int(curName) < 0:
+			break
+		# search
+		imgs = sr.getImgs()
+		imgNameArr,resDetial,checkRate = sr.searcher( "images/"+curName+".jpg", 'images/', curName, 1000, 100, imgs )
+		startGUI( imgNameArr )
+		print "==========================================="
+		print "The check rate of image "+curName+".jpg is:"
+		print checkRate
+		print "==========================================="
+	print "Exit"
 
 if __name__ == '__main__':
 	main()

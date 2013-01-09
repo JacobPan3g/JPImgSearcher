@@ -25,7 +25,7 @@ def saveAsIntArr2DToTxt( filename, arr_2D ):
 		fobj.writelines( "\n" )
 	fobj.close()
 
-# 1 2 3 | 1 2 3 | 3 2 1
+# 1 2 3 |1 2 3 |3 2 1 |
 def saveAsIntArr3DToTxt( filename, arr_3D ):
 	fobj = open( filename, 'w' )
 	for arr_2D in arr_3D:

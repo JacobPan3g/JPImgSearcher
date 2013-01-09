@@ -52,6 +52,11 @@ def rgb2hsi( rgbImg ):
 		# Here here
 	return hsiMat
 
+# Function: statitict
+#	statitict and quantization the hsi histogram
+#	Parameter:
+#		imgArr;Array		the rgb histogram array of a splited image
+#		nums:int			the number of blocks
 def statitict( imgArr, nums ):
 	H = [0, 0, 0, 0, 0, 0, 0, 0]
 	S = [0, 0 ,0]
